@@ -43,8 +43,15 @@ group = displayio.Group()
 group.append(tile_grid)
 
 def updateDisplay():
+    print("update called")
     display.show(group)
     display.refresh()
+
+def updateBitmap(x,y,color):
+    bitmap[x, y] = color
+
+def wipeBitmap(color):
+    bitmap.fill(color)
 
 def refreshCheck(time_elapsed):
     return (time_elapsed > min_refresh_rate)

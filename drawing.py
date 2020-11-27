@@ -10,7 +10,7 @@ canvas_height = 128#display.height
 canvas_width = 296#display.width
 
 def refresh():
-    epd.bitmap.fill(backgroundFill)
+    epd.wipeBitmap(backgroundFill)
 
 def setFill(paletteIndex):
     global currentFill
@@ -20,14 +20,14 @@ def rect(x1, x2, y1, y2):
     global bitmap
     for x in range(x1, x2):
         for y in range(y1, y2):
-            epd.bitmap[x, y] = currentFill
+            epd.updateBitmap(x,y,currentFill)
 
 def v_line(x, y1, y2):
     global bitmap
     for y in range(y1, y2):
-        epd.bitmap[x, y] = currentFill
+        epd.updateBitmap(x,y,currentFill)
 
 def h_line(y, x1, x2):
     global bitmap
     for x in range(x1, x2):
-            epd.bitmap[x, y] = currentFill
+        epd.updateBitmap(x,y,currentFill)
