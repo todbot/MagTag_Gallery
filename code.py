@@ -1,6 +1,7 @@
 import board
 import time
 import displayio
+import random
 from digitalio import DigitalInOut, Direction, Pull
 import neopixel
 import adafruit_il0373
@@ -99,11 +100,25 @@ def setFill(paletteIndex):
     global currentFill
     currentFill = paletteIndex
 
-def rect(x1, x2, y1, y2):
+def rect_old(x1, x2, y1, y2):
     global bitmap
     for x in range(x1, x2):
         for y in range(y1, y2):
             bitmap[x, y] = currentFill
+
+def rect(x, y, width, height):
+    global bitmap
+    i_max = int(x+width)
+    j_min = int(y-height)
+    for i in range(x, i_max):
+        for j in range(j_min, y):
+            bitmap[i, j] = currentFill
+
+def square(x, y, size):
+    global bitmap
+    for i in range(x, x+size):
+        for j in range(y, y+size):
+            bitmap[i, j] = currentFill
 
 def v_line(x, y1, y2):
     global bitmap
@@ -225,66 +240,75 @@ def lockoutLEDIndicator(color):
 
 def image1():
     square_location = 10
-    square_size = 20
+    square_size = 5
+    limit_min_width = square_size
+    limit_min_height = square_size
+    limit_max_width = (canvas_width - square_size)
+    limit_max_height = (canvas_height - square_size)
 
     #Refresh Screen
-    bitmap.fill(backgroundFill)
+    bitmap.fill(0)
 
-    print(square_location)
-    setFill(0)
-    rect(150, 170, square_location, square_location+square_size)
-
-    setFill(1)
-    rect(110, 130, square_location, square_location+square_size)
-
-    setFill(2)
-    rect(70, 90, square_location, square_location+square_size)
-
-    setFill(0)
-    v_line(32, 0, canvas_height)
-    h_line(32, 0, canvas_width)
-
-    last_square_location = square_location
+    for s in range(1, 100):
+        setFill(3)
+        size = random.randrange(1,square_size)
+        x = random.randrange(limit_min_width, limit_max_width)
+        y = random.randrange(limit_min_height, limit_max_height)
+        square(x, y, size)
 
 def image2():
-    square_location = 20
-    square_size = 20
+    h_spacing = 8
+    h_line_count = int(canvas_height / h_spacing)
+    v_spacing = 8
+    v_line_count = int(canvas_width / v_spacing)
+
+    #Refresh Screen
+    bitmap.fill(2)
+
+    for r in range(0, h_line_count):
+        setFill(1)
+        h_line(r*h_spacing, 0, canvas_width)
+
+    for c in range(0, v_line_count):
+        setFill(1)
+        v_line(c*v_spacing, 0, canvas_height)
+
+def default_image():
+
+    baseline = 125
+
+
+    rect1_y = baseline
+    rect1_width = 95
+    rect1_height = 95
+
+    rect0_y = baseline
+    rect0_width = 110
+    rect0_height = 110
+
+
+    rect2_y = baseline
+    rect2_width = 30
+    rect2_height = 30
+
+    overlap1 = 10
+    overlap2 = int(rect2_width/2)
+    rect1_x = int((canvas_width - (rect1_width + rect0_width))/2) + int(overlap1/2)
+    rect2_x = rect1_width + rect1_x - overlap2
+    rect0_x = rect1_width + rect1_x - overlap1
+
     #Refresh Screen
     bitmap.fill(0)
 
-    print(square_location)
-    setFill(0)
-    rect(150, 170, square_location, square_location+square_size)
-
-    setFill(1)
-    rect(110, 130, square_location, square_location+square_size)
+    setFill(3)
+    rect(rect0_x, rect0_y, rect0_width, rect0_height)
 
     setFill(2)
-    rect(70, 90, square_location, square_location+square_size)
-
-    setFill(0)
-    v_line(32, 0, canvas_height)
-    h_line(32, 0, canvas_width)
-
-def image3():
-    square_location = 20
-    square_size = 10
-    #Refresh Screen
-    bitmap.fill(0)
-
-    print(square_location)
-    setFill(0)
-    rect(150, 170, square_location, square_location+square_size)
+    rect(rect1_x, rect1_y, rect1_width, rect1_height)
 
     setFill(1)
-    rect(110, 130, square_location, square_location+square_size)
+    rect(rect2_x, rect2_y, rect2_width, rect2_height)
 
-    setFill(2)
-    rect(70, 90, square_location, square_location+square_size)
-
-    setFill(0)
-    v_line(32, 0, canvas_height)
-    h_line(32, 0, canvas_width)
 
 def image4():
     square_location = 20
@@ -294,33 +318,34 @@ def image4():
 
     print(square_location)
     setFill(0)
-    rect(150, 170, square_location, square_location+square_size)
+    rect_old(150, 170, square_location, square_location+square_size)
 
     setFill(1)
-    rect(110, 130, square_location, square_location+square_size)
+    rect_old(110, 130, square_location, square_location+square_size)
 
     setFill(2)
-    rect(70, 90, square_location, square_location+square_size)
+    rect_old(70, 90, square_location, square_location+square_size)
 
     setFill(0)
     v_line(32, 0, canvas_height)
     h_line(32, 0, canvas_width)
 
-def default_image():
-    square_location = 20
-    square_size = 10
+def image1():
+    square_location = 10
+    square_size = 20
+
     #Refresh Screen
     bitmap.fill(backgroundFill)
 
     print(square_location)
     setFill(0)
-    rect(150, 170, square_location, square_location+square_size)
+    rect_old(150, 170, square_location, square_location+square_size)
 
     setFill(1)
-    rect(110, 130, square_location, square_location+square_size)
+    rect_old(110, 130, square_location, square_location+square_size)
 
     setFill(2)
-    rect(70, 90, square_location, square_location+square_size)
+    rect_old(70, 90, square_location, square_location+square_size)
 
     setFill(0)
     v_line(32, 0, canvas_height)
