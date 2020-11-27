@@ -117,6 +117,8 @@ CYAN = 0x0088BB
 MAGENTA = 0x9900BB
 WHITE = 0x888888
 
+CHARTREUSE = 0x448811
+
 def all_on(color):
     global _neopixel_disable
     if _neopixel_disable:
@@ -173,11 +175,32 @@ def display_loop():
 
 
 def hardware_loop():
+    mode_flag = 0
     if (buttons[0].value == 0):
-        print("Pressed")
+        mode_flag = 1
+        print("Mode1")
+    if (buttons[1].value == 0):
+        mode_flag = 2
+        print("Mode2")
+    if (buttons[2].value == 0):
+        mode_flag = 3
+        print("Mode3")
+    if (buttons[3].value == 0):
+        mode_flag = 4
+        print("Mode4")
+
+    if mode_flag == 1:
         all_on(CYAN)
-    else:
+    elif mode_flag == 2:
+        all_on(MAGENTA)
+    elif mode_flag == 3:
+        all_on(YELLOW)
+    elif mode_flag == 4:
+        all_on(CHARTREUSE)
+    elif mode_flag == 0:
+        #print("Off")
         all_off()
+
 
 ######################## --- MORE TEMPLATE CODE
 ######## -- DO NOT LOOK AT THE CODE BEHIND THE CURTAIN
