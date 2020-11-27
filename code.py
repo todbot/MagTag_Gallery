@@ -114,11 +114,8 @@ def rect(x, y, width, height):
         for j in range(j_min, y):
             bitmap[i, j] = currentFill
 
-def square(x, y, size):
-    global bitmap
-    for i in range(x, x+size):
-        for j in range(y, y+size):
-            bitmap[i, j] = currentFill
+def square(x, y, size): #TO DO
+    rect(x, y, size, size)
 
 def v_line(x, y1, y2):
     global bitmap
