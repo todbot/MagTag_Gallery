@@ -48,6 +48,7 @@ last_refresh_time = 0
 min_refresh_rate = 10
 display_loop_index = 1 #How often has been the display been updated
 bitmap_has_update = True #Should the display be updating
+display_updates_enabled = True
 
 # Create a bitmap with two colors
 # 4 colors are (0,0,0), (82,82,82), (163,163,163), (255,255,255)
@@ -74,6 +75,14 @@ tile_grid = displayio.TileGrid(bitmap, pixel_shader=palette)
 group = displayio.Group()
 # Add the TileGrid to the Group
 group.append(tile_grid)
+
+def pauseDisplay():
+    global display_updates_enabled
+    display_updates_enabled = False
+
+def resumeDisplay():
+    global display_updates_enabled
+    display_updates_enabled = True
 
 ## -- End Epaper Handing
 
@@ -136,70 +145,186 @@ def all_off():
 ## here directly.
 
 ## Squares move accross the screen. When they reach the
-## edge program throws an out of bounds error and stops
-square_location = 10
-last_square_location = 0
-square_size = 20
+## edge program throws an out of bounds error and stop
+current_mode = 0
+lockout_flag = False
+release_time = 0
+lockout_duration = min_refresh_rate
 
 def setup():
     print("SetUp")
     #Noting to see here yet
 
 def display_loop():
-    global square_location, last_square_location
-
-    square_location = ((display_loop_index % 8) * 12) + 10
-
-
-    if (square_location != last_square_location):
-        #Refresh Screen
-        bitmap.fill(backgroundFill)
-
-        print(square_location)
-        setFill(0)
-        rect(150, 170, square_location, square_location+square_size)
-
-        setFill(1)
-        rect(110, 130, square_location, square_location+square_size)
-
-        setFill(2)
-        rect(70, 90, square_location, square_location+square_size)
-
-        setFill(0)
-        v_line(32, 0, canvas_height)
-        h_line(32, 0, canvas_width)
-
-        last_square_location = square_location
+    if current_mode == 1:
+        image1()
+        pauseDisplay()
+    elif current_mode == 2:
+        image2()
+        pauseDisplay()
+    elif current_mode == 3:
+        image3()
+        pauseDisplay()
+    elif current_mode == 4:
+        image4()
+        pauseDisplay()
+    elif current_mode == 0:
+        default_image()
+        pauseDisplay()
+        print("nothing to see?")
 
 
 
 
 def hardware_loop():
-    mode_flag = 0
-    if (buttons[0].value == 0):
-        mode_flag = 1
-        print("Mode1")
-    if (buttons[1].value == 0):
-        mode_flag = 2
-        print("Mode2")
-    if (buttons[2].value == 0):
-        mode_flag = 3
-        print("Mode3")
-    if (buttons[3].value == 0):
-        mode_flag = 4
-        print("Mode4")
+    global current_mode, lockout_flag, release_time
 
-    if mode_flag == 1:
-        all_on(CYAN)
-    elif mode_flag == 2:
-        all_on(MAGENTA)
-    elif mode_flag == 3:
-        all_on(YELLOW)
-    elif mode_flag == 4:
-        all_on(CHARTREUSE)
-    elif mode_flag == 0:
+    if (lockout_flag == True):
+        if time.monotonic() > release_time:
+            lockout_flag = False
+
+    if (lockout_flag == False):
+        if (buttons[0].value == 0):
+            buttonPress(0)
+
+        if (buttons[1].value == 0):
+            buttonPress(1)
+
+        if (buttons[2].value == 0):
+            buttonPress(2)
+
+        if (buttons[3].value == 0):
+            buttonPress(3)
+
+
+    if current_mode == 1:
+        lockoutLEDIndicator(CYAN)
+    elif current_mode == 2:
+        lockoutLEDIndicator(MAGENTA)
+    elif current_mode == 3:
+        lockoutLEDIndicator(YELLOW)
+    elif current_mode == 4:
+        lockoutLEDIndicator(CHARTREUSE)
+    elif current_mode == 0:
         #print("Off")
         all_off()
+
+def buttonPress(button_index):
+    global current_mode, lockout_flag, release_time
+    current_mode = button_index + 1
+    lockout_flag = True
+    release_time = time.monotonic() + lockout_duration
+    resumeDisplay()
+    print("Mode ", current_mode)
+
+def lockoutLEDIndicator(color):
+    if (lockout_flag == True):
+        all_on(color)
+    else:
+        all_off()
+
+def image1():
+    square_location = 10
+    square_size = 20
+
+    #Refresh Screen
+    bitmap.fill(backgroundFill)
+
+    print(square_location)
+    setFill(0)
+    rect(150, 170, square_location, square_location+square_size)
+
+    setFill(1)
+    rect(110, 130, square_location, square_location+square_size)
+
+    setFill(2)
+    rect(70, 90, square_location, square_location+square_size)
+
+    setFill(0)
+    v_line(32, 0, canvas_height)
+    h_line(32, 0, canvas_width)
+
+    last_square_location = square_location
+
+def image2():
+    square_location = 20
+    square_size = 20
+    #Refresh Screen
+    bitmap.fill(0)
+
+    print(square_location)
+    setFill(0)
+    rect(150, 170, square_location, square_location+square_size)
+
+    setFill(1)
+    rect(110, 130, square_location, square_location+square_size)
+
+    setFill(2)
+    rect(70, 90, square_location, square_location+square_size)
+
+    setFill(0)
+    v_line(32, 0, canvas_height)
+    h_line(32, 0, canvas_width)
+
+def image3():
+    square_location = 20
+    square_size = 10
+    #Refresh Screen
+    bitmap.fill(0)
+
+    print(square_location)
+    setFill(0)
+    rect(150, 170, square_location, square_location+square_size)
+
+    setFill(1)
+    rect(110, 130, square_location, square_location+square_size)
+
+    setFill(2)
+    rect(70, 90, square_location, square_location+square_size)
+
+    setFill(0)
+    v_line(32, 0, canvas_height)
+    h_line(32, 0, canvas_width)
+
+def image4():
+    square_location = 20
+    square_size = 10
+    #Refresh Screen
+    bitmap.fill(backgroundFill)
+
+    print(square_location)
+    setFill(0)
+    rect(150, 170, square_location, square_location+square_size)
+
+    setFill(1)
+    rect(110, 130, square_location, square_location+square_size)
+
+    setFill(2)
+    rect(70, 90, square_location, square_location+square_size)
+
+    setFill(0)
+    v_line(32, 0, canvas_height)
+    h_line(32, 0, canvas_width)
+
+def default_image():
+    square_location = 20
+    square_size = 10
+    #Refresh Screen
+    bitmap.fill(backgroundFill)
+
+    print(square_location)
+    setFill(0)
+    rect(150, 170, square_location, square_location+square_size)
+
+    setFill(1)
+    rect(110, 130, square_location, square_location+square_size)
+
+    setFill(2)
+    rect(70, 90, square_location, square_location+square_size)
+
+    setFill(0)
+    v_line(32, 0, canvas_height)
+    h_line(32, 0, canvas_width)
 
 
 ######################## --- MORE TEMPLATE CODE
@@ -209,19 +334,21 @@ def update_io():
     hardware_loop()
 
 def update_display():
-    global display_loop_index, bitmap_has_update, last_refresh_time
+    global display_loop_index, bitmap_has_update, last_refresh_time, display_updates_enabled
     #print("update")
-    display_loop()
 
-    current_time = time.monotonic()
-    if (current_time - last_refresh_time) > min_refresh_rate:
-        print(current_time,"---- epaper refresh loop! ---- ", display_loop_index)
-        display.show(group)
-        # Refresh the screen
-        last_refresh_time = current_time
-        display_loop_index = display_loop_index + 1
+    #print("updates enabled?: ", display_updates_enabled)
+    if (display_updates_enabled == True):
+        current_time = time.monotonic()
+        if (current_time - last_refresh_time) > min_refresh_rate:
+            display_loop()
+            print(current_time,"---- epaper refresh loop! ---- ", display_loop_index)
+            display.show(group)
+            # Refresh the screen
+            last_refresh_time = current_time
+            display_loop_index = display_loop_index + 1
 
-        display.refresh()
+            display.refresh()
 
 
 
