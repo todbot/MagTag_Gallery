@@ -31,3 +31,6 @@ def h_line(y, x1, x2):
     global bitmap
     for x in range(x1, x2):
         epd.updateBitmap(x,y,currentFill)
+
+def updateDisplay():
+    epd.updateDisplay()

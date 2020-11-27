@@ -35,7 +35,7 @@ def display_loop(loop_index):
         drawing.rect(110, 130, square_location, square_location+square_size)
 
         drawing.setFill(2)
-        drawing.rect(70, 90, square_location, square_location+square_size)
+        drawing.rect(70, 100, square_location, square_location+square_size)
 
         drawing.setFill(0)
         drawing.v_line(32, 0, drawing.canvas_height)
@@ -49,3 +49,6 @@ def hardware_loop():
         leds.all_on(leds.CYAN)
     else:
         leds.all_off()
+
+def updateDisplay():
+    drawing.updateDisplay()

@@ -52,6 +52,3 @@ def updateBitmap(x,y,color):
 
 def wipeBitmap(color):
     bitmap.fill(color)
-
-def refreshCheck(time_elapsed):
-    return (time_elapsed > min_refresh_rate)
