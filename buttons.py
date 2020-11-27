@@ -1,3 +1,5 @@
+import board
+from digitalio import DigitalInOut, Direction, Pull
 #BUTTONS
 #The buttons are on D11, D12, D14 and D15
 buttons = []

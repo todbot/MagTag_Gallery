@@ -1,3 +1,8 @@
+import board
+import neopixel
+from digitalio import DigitalInOut, Direction, Pull
+
+# Buttons and LEDs are now in their own files
 #NEOPIXELS
 neopixels = neopixel.NeoPixel(board.NEOPIXEL, 4, brightness=0.3)
 _neopixel_disable = DigitalInOut(board.NEOPIXEL_POWER)
