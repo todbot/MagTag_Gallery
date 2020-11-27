@@ -2,6 +2,7 @@ import drawing
 import leds
 import buttons
 
+
 ######################## --- SKETCH SPECIFIC CODE
 ## Nothing in here should update variables outside of
 ## here directly.
@@ -45,6 +46,6 @@ def display_loop(loop_index):
 def hardware_loop():
     if (buttons.buttons[0].value == 0):
         print("Pressed")
-        leds.all_on(CYAN)
+        leds.all_on(leds.CYAN)
     else:
         leds.all_off()
