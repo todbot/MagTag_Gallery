@@ -27,7 +27,7 @@ def display_loop(loop_index):
         #Refresh Screen
         drawing.refresh()
 
-        print(square_location)
+        print("square loc: ",square_location)
         drawing.setFill(0)
         drawing.rect(150, 170, square_location, square_location+square_size)
 
