@@ -20,15 +20,11 @@ def update_display():
     delta = current_time - last_refresh_time
     if epd.refreshCheck(delta):
         print(current_time,"---- epaper refresh loop! ---- ", display_loop_index)
-        #epd.updateDisplay()
-
-        epd.display.show(epd.group)
-
+        epd.updateDisplay()
         # Refresh the screen
         last_refresh_time = current_time
         display_loop_index = display_loop_index + 1
 
-        epd.display.refresh()
 
 
 
