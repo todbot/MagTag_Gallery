@@ -273,23 +273,20 @@ def image2():
         setFill(1)
         v_line(c*v_spacing, 0, canvas_height)
 
-def default_image():
-
+def image3():
     baseline = 125
 
-
-    rect1_y = baseline
     rect1_width = 95
     rect1_height = 95
+    rect1_y = baseline
 
-    rect0_y = baseline
     rect0_width = 110
     rect0_height = 110
+    rect0_y = baseline
 
-
-    rect2_y = baseline
     rect2_width = 30
     rect2_height = 30
+    rect2_y = baseline - int(rect1_height * 0.6) + int(rect2_height * 0.7)
 
     overlap1 = 10
     overlap2 = int(rect2_width/2)
@@ -311,26 +308,29 @@ def default_image():
 
 
 def image4():
-    square_location = 20
-    square_size = 10
+    baseline = 32
+    bird_height = 20
+    bird_offset = 10
+    bird_width = 10
     #Refresh Screen
     bitmap.fill(backgroundFill)
 
-    print(square_location)
-    setFill(0)
-    rect_old(150, 170, square_location, square_location+square_size)
-
     setFill(1)
-    rect_old(110, 130, square_location, square_location+square_size)
+    rect(150, baseline+bird_offset, bird_width, bird_height)
 
-    setFill(2)
-    rect_old(70, 90, square_location, square_location+square_size)
+    #setFill(1)
+    rect(110, baseline+bird_offset, bird_width, bird_height)
+
+    #setFill(2)
+    rect(70, baseline+bird_offset, bird_width, bird_height)
 
     setFill(0)
     v_line(32, 0, canvas_height)
-    h_line(32, 0, canvas_width)
+    v_line(32+4, 0, canvas_height)
+    v_line(32-4, 0, canvas_height)
+    h_line(baseline+4, 0, canvas_width)
 
-def image1():
+def default_image():
     square_location = 10
     square_size = 20
 
