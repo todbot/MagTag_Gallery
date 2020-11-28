@@ -36,7 +36,7 @@ for pin in (board.BUTTON_A, board.BUTTON_B, board.BUTTON_C, board.BUTTON_D):
     buttons.append(switch)
 
 #NEOPIXELS
-neopixels = neopixel.NeoPixel(board.NEOPIXEL, 4, brightness=0.3)
+neopixels = neopixel.NeoPixel(board.NEOPIXEL, 4, brightness=0.1)
 _neopixel_disable = DigitalInOut(board.NEOPIXEL_POWER)
 _neopixel_disable.direction = Direction.OUTPUT
 _neopixel_disable.value = False #keep them off by default
