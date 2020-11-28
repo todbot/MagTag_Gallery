@@ -259,7 +259,7 @@ def image2():
     v_line_count = int(canvas_width / v_spacing)
 
     #Refresh Screen
-    bitmap.fill(2)
+    bitmap.fill(3)
 
     setFill(1)
     for r in range(0, h_line_count):
@@ -276,19 +276,29 @@ def image2():
                     setFill(0)
                     h_line(r*h_spacing, max(c*v_spacing-2, 0), min(c*v_spacing-1, canvas_width))
                     h_line(r*h_spacing, max(c*v_spacing+1, 0), min(c*v_spacing+2, canvas_width))
+                    setFill(2)
+                    v_line(c*v_spacing, max(r*h_spacing-2, 0), min(r*h_spacing+2, canvas_height))
+
                 else:
                     setFill(0)
                     v_line(c*v_spacing, max(r*h_spacing-2, 0), min(r*h_spacing-1, canvas_height))
                     v_line(c*v_spacing, max(r*h_spacing+1, 0), min(r*h_spacing+2, canvas_height))
+                    setFill(2)
+                    h_line(r*h_spacing, max(c*v_spacing-2, 0), min(c*v_spacing+2, canvas_width))
             else:
                 if (c % 2):
                     setFill(0)
                     v_line(c*v_spacing, max(r*h_spacing-2, 0), min(r*h_spacing-1, canvas_height))
                     v_line(c*v_spacing, max(r*h_spacing+1, 0), min(r*h_spacing+2, canvas_height))
+                    setFill(2)
+                    h_line(r*h_spacing, max(c*v_spacing-2, 0), min(c*v_spacing+2, canvas_width))
                 else:
                     setFill(0)
                     h_line(r*h_spacing, max(c*v_spacing-2, 0), min(c*v_spacing-1, canvas_width))
                     h_line(r*h_spacing, max(c*v_spacing+1, 0), min(c*v_spacing+2, canvas_width))
+                    setFill(2)
+                    v_line(c*v_spacing, max(r*h_spacing-2, 0), min(r*h_spacing+2, canvas_height))
+
 
 def image3():
     baseline = 125
@@ -368,6 +378,7 @@ def default_image():
     setFill(0)
     v_line(32, 0, canvas_height)
     h_line(32, 0, canvas_width)
+
 
 
 ######################## --- MORE TEMPLATE CODE
