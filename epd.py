@@ -35,15 +35,14 @@ palette[2] = 0xA3A3A3
 palette[3] = 0xFFFFFF
 
 
-# Create a TileGrid using the Bitmap and Palette
-tile_grid = displayio.TileGrid(bitmap, pixel_shader=palette)
-# Create a Group
-group = displayio.Group()
-# Add the TileGrid to the Group
-group.append(tile_grid)
-
 def updateDisplay():
     print("update called")
+    # Create a TileGrid using the Bitmap and Palette
+    tile_grid = displayio.TileGrid(bitmap, pixel_shader=palette)
+    # Create a Group
+    group = displayio.Group()
+    # Add the TileGrid to the Group
+    group.append(tile_grid)
     display.show(group)
     display.refresh()
 
@@ -53,10 +52,3 @@ def updateBitmap(x,y,color):
 def wipeBitmap(color):
     bitmap.fill(color)
 
-
-# Create a TileGrid using the Bitmap and Palette
-tile_grid = displayio.TileGrid(bitmap, pixel_shader=palette)
-# Create a Group
-group = displayio.Group()
-# Add the TileGrid to the Group
-group.append(tile_grid)
