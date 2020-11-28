@@ -243,7 +243,6 @@ def image1():
     limit_max_width = (canvas_width - square_size)
     limit_max_height = (canvas_height - square_size)
 
-    #Refresh Screen
     bitmap.fill(0)
 
     for s in range(1, 100):
@@ -262,13 +261,34 @@ def image2():
     #Refresh Screen
     bitmap.fill(2)
 
+    setFill(1)
     for r in range(0, h_line_count):
-        setFill(1)
         h_line(r*h_spacing, 0, canvas_width)
 
     for c in range(0, v_line_count):
-        setFill(1)
         v_line(c*v_spacing, 0, canvas_height)
+
+
+    for r in range(0, h_line_count):
+        for c in range(0, v_line_count):
+            if (r % 2):
+                if (c % 2):
+                    setFill(0)
+                    h_line(r*h_spacing, max(c*v_spacing-2, 0), min(c*v_spacing-1, canvas_width))
+                    h_line(r*h_spacing, max(c*v_spacing+1, 0), min(c*v_spacing+2, canvas_width))
+                else:
+                    setFill(0)
+                    v_line(c*v_spacing, max(r*h_spacing-2, 0), min(r*h_spacing-1, canvas_height))
+                    v_line(c*v_spacing, max(r*h_spacing+1, 0), min(r*h_spacing+2, canvas_height))
+            else:
+                if (c % 2):
+                    setFill(0)
+                    v_line(c*v_spacing, max(r*h_spacing-2, 0), min(r*h_spacing-1, canvas_height))
+                    v_line(c*v_spacing, max(r*h_spacing+1, 0), min(r*h_spacing+2, canvas_height))
+                else:
+                    setFill(0)
+                    h_line(r*h_spacing, max(c*v_spacing-2, 0), min(c*v_spacing-1, canvas_width))
+                    h_line(r*h_spacing, max(c*v_spacing+1, 0), min(c*v_spacing+2, canvas_width))
 
 def image3():
     baseline = 125
@@ -328,6 +348,7 @@ def image4():
     h_line(baseline+4, 0, canvas_width)
 
 def default_image():
+    ## testing sketch for primatives
     square_location = 10
     square_size = 20
 
