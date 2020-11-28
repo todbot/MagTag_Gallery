@@ -8,9 +8,16 @@ backgroundFill = 3
 currentFill = 0
 canvas_height = 128#display.height ##HARDCODED!!
 canvas_width = 296#display.width ##HARDCODED!!
+display_updates_enabled = True
+
+def updateDisplay():
+    epd.updateDisplay()
 
 def refresh():
     epd.wipeBitmap(backgroundFill)
+
+def refresh(paletteIndex):
+    epd.wipeBitmap(paletteIndex)
 
 def setFill(paletteIndex):
     global currentFill

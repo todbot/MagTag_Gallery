@@ -52,3 +52,11 @@ def updateBitmap(x,y,color):
 
 def wipeBitmap(color):
     bitmap.fill(color)
+
+
+# Create a TileGrid using the Bitmap and Palette
+tile_grid = displayio.TileGrid(bitmap, pixel_shader=palette)
+# Create a Group
+group = displayio.Group()
+# Add the TileGrid to the Group
+group.append(tile_grid)
